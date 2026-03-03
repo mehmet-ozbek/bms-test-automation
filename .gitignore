@@ -48,3 +48,5 @@ allure-report/
 target/allure-results/
 target/allure-report/
 
+# Local allure config/cache (IntelliJ plugin folder)
+.allure/
