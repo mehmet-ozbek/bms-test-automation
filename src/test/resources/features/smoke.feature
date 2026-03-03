@@ -20,5 +20,8 @@ Feature: Smoke tests
     When user clicks "Payment" from left menu
     Then "Payment" page should be opened
 
+    When user clicks "Bengi BMS" from left menu
+    Then "Bengi BMS" page should be opened
+
     And I logout
     Then I should be redirected to login page

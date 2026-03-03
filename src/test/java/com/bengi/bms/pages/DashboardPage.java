@@ -30,7 +30,9 @@ public class DashboardPage extends BasePage {
     }
     public void logout() {
         click(userDropdownToggle);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(logoutButton));
         click(logoutButton);
+        wait.until(ExpectedConditions.urlContains("/Auth/Login"));
     }
     public void goToOrders(){
         NavigationMenu menu = new NavigationMenu();
