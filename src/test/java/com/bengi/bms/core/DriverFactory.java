@@ -25,12 +25,12 @@ public final class DriverFactory {
                 case "chrome":
                     ChromeOptions options = new ChromeOptions();
 
-                    // GitHub Actions gibi CI ortamlarında stabil çalışması için
-                    if ("true".equalsIgnoreCase(System.getenv("CI"))) {
+                    // GitHub Actions / Linux CI ortamı için
+                    if (System.getenv("GITHUB_ACTIONS") != null) {
                         options.addArguments("--headless=new");
-                        options.addArguments("--window-size=1920,1080");
                         options.addArguments("--no-sandbox");
                         options.addArguments("--disable-dev-shm-usage");
+                        options.addArguments("--window-size=1920,1080"); // kritik!
                     }
 
                     driver = new ChromeDriver(options);
@@ -40,7 +40,7 @@ public final class DriverFactory {
                     throw new RuntimeException("Browser not supported: " + browser);
             }
 
-            // Headless'ta maximize bazen etkisiz ama lokal için dursun
+            // headless'ta maximize güvenilmez, ama localde dursun
             driver.manage().window().maximize();
             DRIVER.set(driver);
         }
