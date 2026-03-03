@@ -1,6 +1,6 @@
 Feature: Login
 
-  @smoke
+  @login
   Scenario: User can login successfully
       Given I open the login page
       When I login with valid credentials

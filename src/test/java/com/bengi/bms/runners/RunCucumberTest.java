@@ -11,6 +11,9 @@ import static io.cucumber.junit.platform.engine.Constants.*;
 @IncludeEngines("cucumber")
 @SelectClasspathResource("features")
 @ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "com.bengi.bms.steps,com.bengi.bms.hooks")
-@ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty")
+@ConfigurationParameter(
+        key = PLUGIN_PROPERTY_NAME,
+        value = "pretty, io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"
+)
 public class RunCucumberTest {
 }
