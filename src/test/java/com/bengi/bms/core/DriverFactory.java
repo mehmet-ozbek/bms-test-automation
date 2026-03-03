@@ -2,6 +2,7 @@ package com.bengi.bms.core;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 public final class DriverFactory {
 
@@ -14,25 +15,37 @@ public final class DriverFactory {
     }
 
     public static void initDriver() {
+        if (DRIVER.get() != null) return;
 
-        if (DRIVER.get() == null) {
+        String browser = ConfigReader.get("browser");
+        WebDriver driver;
 
-            String browser = ConfigReader.get("browser");
+        switch (browser.toLowerCase()) {
+            case "chrome":
+                ChromeOptions options = new ChromeOptions();
 
-            WebDriver driver;
+                // GitHub Actions otomatik CI=true set eder
+                boolean isCI = "true".equalsIgnoreCase(System.getenv("CI"));
 
-            switch (browser.toLowerCase()) {
-                case "chrome":
-                    driver = new ChromeDriver();
-                    break;
+                if (isCI) {
+                    // Linux runner için gerekli stabil ayarlar
+                    options.addArguments("--headless=new");
+                    options.addArguments("--no-sandbox");
+                    options.addArguments("--disable-dev-shm-usage");
+                    options.addArguments("--disable-gpu");
+                    options.addArguments("--window-size=1920,1080");
+                }
 
-                default:
-                    throw new RuntimeException("Browser not supported: " + browser);
-            }
+                driver = new ChromeDriver(options);
+                break;
 
-            driver.manage().window().maximize();
-            DRIVER.set(driver);
+            default:
+                throw new RuntimeException("Browser not supported: " + browser);
         }
+
+        // CI'de maximize bazen gereksiz/garip davranabilir; ama kalsın
+        driver.manage().window().maximize();
+        DRIVER.set(driver);
     }
 
     public static void quitDriver() {
