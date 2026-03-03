@@ -4,6 +4,7 @@ import com.bengi.bms.core.BasePage;
 import org.openqa.selenium.By;
 import com.bengi.bms.components.NavigationMenu;
 import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class DashboardPage extends BasePage {
 
@@ -62,5 +63,14 @@ public class DashboardPage extends BasePage {
     public void goToDashboard() {
         NavigationMenu menu = new NavigationMenu();
         menu.clickMenu("Bengi BMS");
+    }
+    private final By dailyRevenueCard = By.xpath("//*[normalize-space()='Daily Revenue']");
+    private final By totalOrdersCard  = By.xpath("//*[normalize-space()='Total Orders']");
+
+    public boolean areDashboardWidgetsVisible() {
+        return isVisible(dailyRevenueCard) && isVisible(totalOrdersCard);
+    }
+    public boolean isDashboardLoaded() {
+        return isVisible(dailyRevenueCard) && isVisible(totalOrdersCard);
     }
 }

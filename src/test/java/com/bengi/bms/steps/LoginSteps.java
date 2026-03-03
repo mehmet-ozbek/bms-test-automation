@@ -31,6 +31,11 @@ public class LoginSteps {
         String displayName = ConfigReader.get("user.display.name");
         assertThat(dashboardPage.isLoggedInAs(displayName)).isTrue();
     }
+    @Then("dashboard should be visible")
+    public void dashboardShouldBeVisible() {
+        DashboardPage dashboardPage = new DashboardPage();
+        assertThat(dashboardPage.isDashboardLoaded()).isTrue();
+    }
     @When("I login with username and password {string}")
     public void iLoginWithUsernameAndPassword(String password) {
         loginPage.login(ConfigReader.get("username"), password);
