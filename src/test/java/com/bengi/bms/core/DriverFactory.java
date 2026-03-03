@@ -15,37 +15,39 @@ public final class DriverFactory {
     }
 
     public static void initDriver() {
-        if (DRIVER.get() != null) return;
 
-        String browser = ConfigReader.get("browser");
-        WebDriver driver;
+        if (DRIVER.get() == null) {
 
-        switch (browser.toLowerCase()) {
-            case "chrome":
-                ChromeOptions options = new ChromeOptions();
+            String browser = ConfigReader.get("browser");
+            WebDriver driver;
 
-                // GitHub Actions otomatik CI=true set eder
-                boolean isCI = "true".equalsIgnoreCase(System.getenv("CI"));
+            switch (browser.toLowerCase()) {
+                case "chrome":
+                    ChromeOptions options = new ChromeOptions();
 
-                if (isCI) {
-                    // Linux runner için gerekli stabil ayarlar
-                    options.addArguments("--headless=new");
-                    options.addArguments("--no-sandbox");
-                    options.addArguments("--disable-dev-shm-usage");
-                    options.addArguments("--disable-gpu");
-                    options.addArguments("--window-size=1920,1080");
-                }
+                    // CI ortamını yakala (GitHub Actions CI=true set eder)
+                    boolean isCI = "true".equalsIgnoreCase(System.getenv("CI"));
 
-                driver = new ChromeDriver(options);
-                break;
+                    if (isCI) {
+                        options.addArguments("--headless=new");
+                        options.addArguments("--window-size=1920,1080");
+                        options.addArguments("--no-sandbox");
+                        options.addArguments("--disable-dev-shm-usage");
+                        options.addArguments("--disable-gpu");
+                    }
 
-            default:
-                throw new RuntimeException("Browser not supported: " + browser);
+                    driver = new ChromeDriver(options);
+                    break;
+
+                default:
+                    throw new RuntimeException("Browser not supported: " + browser);
+            }
+
+            // Headless'ta maximize güvenilmez; window-size ile zaten çözdük
+            driver.manage().window().maximize();
+
+            DRIVER.set(driver);
         }
-
-        // CI'de maximize bazen gereksiz/garip davranabilir; ama kalsın
-        driver.manage().window().maximize();
-        DRIVER.set(driver);
     }
 
     public static void quitDriver() {
