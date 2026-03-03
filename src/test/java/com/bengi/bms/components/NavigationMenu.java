@@ -9,7 +9,8 @@ public class NavigationMenu extends BasePage {
         super();
     }
     public void clickMenu(String menuName) {
-        By menuLocator = By.xpath("//span[normalize-space()='" + menuName + "']");
-        click(menuLocator); // BasePage.click -> elementToBeClickable ile bekler
+        // span label yerine onu saran tıklanabilir linke tıkla
+        By menuLocator = By.xpath("//span[normalize-space()='" + menuName + "']/ancestor::a[1]");
+        click(menuLocator); // BasePage.click -> wait ile tıklar
     }
 }
