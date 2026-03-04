@@ -34,6 +34,12 @@ jobs:
           name: target-directory-backup
           path: target/ # Sadece screenshots değil, tüm target'ı bana getir  
 
+      - name: Install Zip
+        run: sudo apt-get install -y zip # Sunucuda zip yüklü değilse yükler
+
+      - name: Archive Allure Report
+        run: zip -r allure-report.zip target/site/allure-maven-plugin # Klasör yolun farklıysa burayı kontrol et
+        
       - name: Send Mail
         uses: dawidd6/action-send-mail@v3
         with:
