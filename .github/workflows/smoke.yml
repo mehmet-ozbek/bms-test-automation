@@ -37,14 +37,13 @@ jobs:
       - name: Send Mail
         uses: dawidd6/action-send-mail@v3
         with:
-          server_address: smtp.gmail.com
-          server_port: 465
-          username: ${{ secrets.MAIL_USERNAME }}
-          password: ${{ secrets.MAIL_PASSWORD }}
-          subject: "BMS Test Raporu - ${{ github.run_number }}"
-          to: mozbek@hotmail.com
-          from: GitHub Actions
-          body: Testler tamamlandı. Rapor ektedir.
-          attachments: target/site/allure-maven-plugin/index.html
+          server_address: ${{ secrets.SMTP_SERVER }}  # Secret listendeki isimle aynı
+          server_port: ${{ secrets.SMTP_PORT }}      # Secret listendeki isimle aynı
+          username: ${{ secrets.SMTP_USERNAME }}    # Secret listendeki isimle aynı
+          password: ${{ secrets.MAIL_PASSWORD }}     # Buraya dikkat!
+          subject: "QA Test Report"
+          to: ${{ secrets.MAIL_TO }}
+          from: ${{ secrets.MAIL_FROM }}
+          secure: true
           
       
