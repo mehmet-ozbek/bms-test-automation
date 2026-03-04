@@ -3,7 +3,7 @@ name: Smoke Tests (Scheduled)
 on:
   workflow_dispatch:
   schedule:
-    - cron: "15 03 * * *"
+    - cron: "42 05 * * *"
 
 jobs:
   smoke:
@@ -37,13 +37,16 @@ jobs:
       - name: Send Mail
         uses: dawidd6/action-send-mail@v3
         with:
-          server_address: ${{ secrets.SMTP_SERVER }}  # Secret listendeki isimle aynı
-          server_port: ${{ secrets.SMTP_PORT }}      # Secret listendeki isimle aynı
-          username: ${{ secrets.SMTP_USERNAME }}    # Secret listendeki isimle aynı
-          password: ${{ secrets.MAIL_PASSWORD }}     # Buraya dikkat!
-          subject: "QA Test Report"
+          server_address: ${{ secrets.SMTP_SERVER }}
+          server_port: ${{ secrets.SMTP_PORT }}
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: "QA Test Report - Success!"
           to: ${{ secrets.MAIL_TO }}
           from: ${{ secrets.MAIL_FROM }}
           secure: true
+          
+          body: "Testler başarıyla tamamlandı. Detaylı Allure raporu ektedir."
+          attachments: "target/allure-report.zip" # Buradaki dosya yolunun doğruluğundan emin ol
           
       
