@@ -3,7 +3,7 @@ name: Smoke Tests (Scheduled)
 on:
   workflow_dispatch:
   schedule:
-    - cron: "2 11 * * *"
+    - cron: "15 03 * * *"
 
 jobs:
   smoke:
@@ -26,3 +26,17 @@ jobs:
       - name: Generate Allure Report
         if: always()
         run: mvn -B allure:report
+
+      - name: Send Mail
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: "BMS Test Raporu - ${{ github.run_number }}"
+          to: senin_mail_adresin@gmail.com
+          from: GitHub Actions
+          body: Testler tamamlandı. Rapor ektedir.
+          attachments: target/site/allure-maven-plugin/index.html
+      
