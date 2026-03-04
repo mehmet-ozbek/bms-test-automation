@@ -7,22 +7,19 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class DashboardPage extends BasePage {
 
-    // CI ortamında metin eşleşmesini garantilemek için contains kullandık
-    private final By dashboardHeader = By.xpath("//*[contains(text(),'Bengi BMS')]");
-
-    private final By userDropdownToggle =
-            By.xpath("//button[contains(@onclick,'toggleUserDropdown')]");
-
-    private final By logoutButton =
-            By.xpath("//form[@action='/Auth/Logout']//button");
+    private final By dashboardHeader = By.xpath("//*[contains(text(),'Bengi BMS')] | //h1[contains(.,'Dashboard')]");
+    private final By userDropdownToggle = By.xpath("//button[contains(@onclick,'toggleUserDropdown')]");
+    private final By logoutButton = By.xpath("//form[@action='/Auth/Logout']//button");
+    private final By dailyRevenueCard = By.xpath("//*[contains(.,'Daily Revenue')]");
+    private final By totalOrdersCard  = By.xpath("//*[contains(.,'Total Orders')]");
 
     private By userProfileName(String displayName) {
-        // normalize-space yerine daha esnek olan contains metodu
         return By.xpath("//button//p[contains(.,'" + displayName + "')]");
     }
 
     public boolean isDisplayed() {
-        return isVisible(dashboardHeader);
+        // Başlık veya Dashboard kartlarından biri görünürse sayfa açılmış demektir
+        return isVisible(dashboardHeader) || isVisible(dailyRevenueCard);
     }
 
     public boolean isLoggedInAs(String displayName) {
@@ -36,15 +33,13 @@ public class DashboardPage extends BasePage {
         wait.until(ExpectedConditions.urlContains("/Auth/Login"));
     }
 
-    public void goToOrders() {
+    public void goToOrders(){
         NavigationMenu menu = new NavigationMenu();
         menu.clickMenu("Orders");
     }
 
     public boolean isOrdersPageOpened() {
-        // Başlıklar için normalize-space yerine contains her zaman daha güvenlidir
-        By ordersHeader = By.xpath("//h1[contains(.,'Orders')]");
-        return isVisible(ordersHeader);
+        return isVisible(By.xpath("//h1[contains(.,'Orders')]"));
     }
 
     public boolean hasAnyOrder() {
@@ -53,7 +48,32 @@ public class DashboardPage extends BasePage {
     }
 
     public boolean isCustomersPageOpened() {
-        By customersHeader = By.xpath("//h1[contains(.,'Customers')]");
-        return isVisible(customersHeader);
+        return isVisible(By.xpath("//h1[contains(.,'Customers')]"));
+    }
+
+    public boolean isDeliveryPageOpened() {
+        return isVisible(By.xpath("//h1[contains(.,'Delivery')]"));
+    }
+
+    public boolean isPaymentPageOpened() {
+        return isVisible(By.xpath("//h1[contains(.,'Payment')]"));
+    }
+
+    public boolean hasAnyCustomer() {
+        By customerCardTitle = By.xpath("//h3[contains(@class,'font-semibold')]");
+        return !driver.findElements(customerCardTitle).isEmpty();
+    }
+
+    public void goToDashboard() {
+        NavigationMenu menu = new NavigationMenu();
+        menu.clickMenu("Bengi BMS");
+    }
+
+    public boolean areDashboardWidgetsVisible() {
+        return isVisible(dailyRevenueCard) && isVisible(totalOrdersCard);
+    }
+
+    public boolean isDashboardLoaded() {
+        return isVisible(dailyRevenueCard) && isVisible(totalOrdersCard);
     }
 }
