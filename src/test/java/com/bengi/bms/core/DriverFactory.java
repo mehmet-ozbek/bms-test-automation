@@ -33,6 +33,8 @@ public final class DriverFactory {
                         options.addArguments("--window-size=1920,1080");
                     }
 
+                    options.addArguments("--start-maximized");
+
                     driver = new ChromeDriver(options);
                     break;
 
