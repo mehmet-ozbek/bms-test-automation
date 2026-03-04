@@ -3,7 +3,7 @@ name: Smoke Tests (Scheduled)
 on:
   workflow_dispatch:
   schedule:
-    - cron: "11 07 * * *"
+    - cron: "16 07 * * *"
 
 jobs:
   smoke:
@@ -53,6 +53,5 @@ jobs:
           secure: true
           
           body: "Testler başarıyla tamamlandı. Detaylı Allure raporu ektedir. Ayrıca Raporu GitHub Actions sayfasındaki Artifacts kısmından: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}  indirebilirsiniz."
-          attachments: "report-data.txt"
           
       
