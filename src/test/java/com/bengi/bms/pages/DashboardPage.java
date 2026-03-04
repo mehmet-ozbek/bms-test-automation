@@ -36,7 +36,7 @@ public class DashboardPage extends BasePage {
         wait.until(ExpectedConditions.urlContains("/Auth/Login"));
     }
 
-    public void goToOrders(){
+    public void goToOrders() {
         NavigationMenu menu = new NavigationMenu();
         menu.clickMenu("Orders");
     }
@@ -56,3 +56,4 @@ public class DashboardPage extends BasePage {
         By customersHeader = By.xpath("//h1[contains(.,'Customers')]");
         return isVisible(customersHeader);
     }
+}
