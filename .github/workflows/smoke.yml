@@ -38,7 +38,7 @@ jobs:
         run: sudo apt-get install -y zip # Sunucuda zip yüklü değilse yükler
 
       - name: Archive Allure Report
-        run: zip -r allure-report.zip target/site/allure-maven-plugin # Klasör yolun farklıysa burayı kontrol et
+        run: zip -r allure-report.zip target/
         
       - name: Send Mail
         uses: dawidd6/action-send-mail@v3
@@ -53,6 +53,6 @@ jobs:
           secure: true
           
           body: "Testler başarıyla tamamlandı. Detaylı Allure raporu ektedir."
-          attachments: "target/allure-report.zip" # Buradaki dosya yolunun doğruluğundan emin ol
+          attachments: "allure-report.zip"
           
       
