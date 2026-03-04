@@ -3,7 +3,7 @@ name: Smoke Tests (Scheduled)
 on:
   workflow_dispatch:
   schedule:
-    - cron: "00 11 * * *"
+    - cron: "15 09 * * *"
 
 jobs:
   smoke:
@@ -41,7 +41,8 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: target/site/allure-maven-plugin
+          # İŞTE BURAYI DEĞİŞTİRİYORUZ:
+          publish_dir: target/allure-report
 
       - name: Send Mail
         uses: dawidd6/action-send-mail@v3
