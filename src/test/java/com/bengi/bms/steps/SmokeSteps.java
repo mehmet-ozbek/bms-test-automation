@@ -5,10 +5,29 @@ import com.bengi.bms.core.DriverFactory;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import com.bengi.bms.pages.DashboardPage;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public class SmokeSteps {
     @When("user clicks {string} from left menu")
     public void user_clicks_from_left_menu(String menuName) {
+        WebDriver driver = DriverFactory.getDriver();
+
+        try {
+            // 1. ADIM: Hamburger menü (üç çizgi) butonunu bul
+            // Bu locator senin sayfandaki o üç çizgiye karşılık gelir
+            WebElement hamburger = driver.findElement(By.cssSelector(".navbar-toggler, .menu-toggle, .hamburger-menu"));
+
+            // 2. ADIM: Eğer bu buton ekranda "görünür" ise tıkla (yani menü gizlenmişse)
+            if (hamburger.isDisplayed()) {
+                hamburger.click();
+                Thread.sleep(500); // Menünün animasyonla açılması için kısa bir bekleme
+            }
+        } catch (Exception e) {
+            // Buton bulunamazsa veya görünür değilse zaten menü açıktır, devam et
+        }
+
         NavigationMenu menu = new NavigationMenu();
         menu.clickMenu(menuName);
     }
