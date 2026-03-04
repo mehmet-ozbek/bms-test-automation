@@ -28,30 +28,34 @@ jobs:
         run: mvn -B allure:report
         
       - name: Upload Everything in Target
-        if: always() # Hata olsa da olmasa da çalıştır
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: target-directory-backup
-          path: target/ # Sadece screenshots değil, tüm target'ı bana getir  
+          path: target/ 
 
-      - name: Install Zip
-        run: zip -r report-data.txt target/
+      # Zipleme adımlarını sildik, yerine GitHub Pages adımını koyduk:
+      - name: Deploy Allure Report to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: target/site/allure-maven-plugin
 
-      - name: Archive Allure Report
-        run: zip -r allure-report.zip target/
-        
       - name: Send Mail
         uses: dawidd6/action-send-mail@v3
+        if: always()
         with:
           server_address: ${{ secrets.SMTP_SERVER }}
           server_port: ${{ secrets.SMTP_PORT }}
           username: ${{ secrets.SMTP_USERNAME }}
           password: ${{ secrets.MAIL_PASSWORD }}
-          subject: "QA Test Report - Success!"
+          subject: "QA Otomasyon Test Raporu"
           to: ${{ secrets.MAIL_TO }}
           from: ${{ secrets.MAIL_FROM }}
           secure: true
-          
-          body: "Testler başarıyla tamamlandı. Detaylı Allure raporu ektedir. Ayrıca Raporu GitHub Actions sayfasındaki Artifacts kısmından: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}  indirebilirsiniz."
-          
-      
+          body: |
+            Merhaba, 
+            Testler tamamlanmıştır. Raporu indirmeden, doğrudan tarayıcınızdan incelemek için aşağıdaki linke tıklayabilirsiniz:
+            https://${{ github.repository_owner }}.github.io/bms-test-automation/
