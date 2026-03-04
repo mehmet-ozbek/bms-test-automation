@@ -1,6 +1,7 @@
 package com.bengi.bms.core;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -28,7 +29,14 @@ public abstract class BasePage {
     }
 
     protected void click(By locator) {
-        wait.until(elementToBeClickable(locator)).click();
+
+        WebElement element = wait.until(visibilityOfElementLocated(locator));
+
+        try {
+            wait.until(elementToBeClickable(locator)).click();
+        } catch (Exception e) {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+        }
     }
 
     protected void type(By locator, String text) {
