@@ -3,7 +3,7 @@ name: Smoke Tests (Scheduled)
 on:
   workflow_dispatch:
   schedule:
-    - cron: "03 07 * * *"
+    - cron: "11 07 * * *"
 
 jobs:
   smoke:
@@ -35,7 +35,7 @@ jobs:
           path: target/ # Sadece screenshots değil, tüm target'ı bana getir  
 
       - name: Install Zip
-        run: sudo apt-get install -y zip # Sunucuda zip yüklü değilse yükler
+        run: zip -r report-data.txt target/
 
       - name: Archive Allure Report
         run: zip -r allure-report.zip target/
@@ -52,7 +52,7 @@ jobs:
           from: ${{ secrets.MAIL_FROM }}
           secure: true
           
-          body: "Testler başarıyla tamamlandı. Detaylı Allure raporu ektedir."
-          attachments: "allure-report.zip"
+          body: "Testler başarıyla tamamlandı. Detaylı Allure raporu ektedir. Ayrıca Raporu GitHub Actions sayfasındaki Artifacts kısmından: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}  indirebilirsiniz."
+          attachments: "report-data.txt"
           
       
