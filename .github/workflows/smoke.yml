@@ -3,7 +3,7 @@ name: Smoke Tests (Scheduled)
 on:
   workflow_dispatch:
   schedule:
-    - cron: "50 08 * * *"
+    - cron: "48 08 * * *"
 
 jobs:
   smoke:
