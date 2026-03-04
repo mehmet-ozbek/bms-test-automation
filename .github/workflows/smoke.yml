@@ -42,7 +42,7 @@ jobs:
           username: ${{ secrets.MAIL_USERNAME }}
           password: ${{ secrets.MAIL_PASSWORD }}
           subject: "BMS Test Raporu - ${{ github.run_number }}"
-          to: senin_mail_adresin@gmail.com
+          to: mozbek@hotmail.com
           from: GitHub Actions
           body: Testler tamamlandı. Rapor ektedir.
           attachments: target/site/allure-maven-plugin/index.html
