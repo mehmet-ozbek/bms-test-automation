@@ -17,7 +17,7 @@ Feature: End to End Order Lifecycle
 
     # Müşteri Ekranı (Bypass) ve Sipariş Onayı
     And user bypasses to the order form
-    And user enters desired quantity and places the order
+    And user enters desired quantity 5 and places the order
     And user accepts the confirmation pop-up
     Then the order success message should be displayed
 

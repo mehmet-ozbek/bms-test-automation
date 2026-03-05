@@ -2,6 +2,7 @@ package com.bengi.bms.steps;
 
 import com.bengi.bms.pages.CustomersPage;
 import com.bengi.bms.pages.CustomerDraftOrderPage;
+import com.bengi.bms.pages.OrderFormPage;
 import io.cucumber.java.en.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -13,6 +14,7 @@ public class OrderSteps {
     // Sayfa (Page) nesnemizi tanımlıyoruz
     private final CustomersPage customersPage = new CustomersPage();
     private final CustomerDraftOrderPage draftOrderPage = new CustomerDraftOrderPage();
+    private final OrderFormPage orderFormPage = new OrderFormPage();
 
     @When("user searches for customer {string} and clicks the basket")
     public void userSearchesForCustomerAndClicksTheBasket(String customerName) {
@@ -49,19 +51,26 @@ public class OrderSteps {
         draftOrderPage.bypassToOrderForm();
     }
 
-    @And("user enters desired quantity and places the order")
-    public void userEntersDesiredQuantityAndPlacesTheOrder() {
-        // TODO: Miktar girip sipariş verme
+    @And("user enters desired quantity {int} and places the order")
+    public void userEntersDesiredQuantityAndPlacesTheOrder(int targetQuantity) {
+        // Sepette varsayılan 1 adet geldiği için, hedeflenen sayıya ulaşmak için (hedef - 1) kere tıklıyoruz
+        int clicksNeeded = targetQuantity - 1;
+        if (clicksNeeded > 0) {
+            orderFormPage.increaseQuantity(clicksNeeded);
+        }
+        orderFormPage.clickBestellen();
     }
 
     @And("user accepts the confirmation pop-up")
     public void userAcceptsTheConfirmationPopUp() {
-        // TODO: Pop-up onaylama
+        orderFormPage.acceptJavaScriptAlert();
     }
 
     @Then("the order success message should be displayed")
     public void theOrderSuccessMessageShouldBeDisplayed() {
-        // TODO: Sipariş başarılı mesajı doğrulaması
+        assertThat(orderFormPage.isSuccessMessageVisible())
+                .as("Sipariş başarı mesajı ekranda görünmedi!")
+                .isTrue();
     }
 
     @When("user navigates back to the Dashboard")
