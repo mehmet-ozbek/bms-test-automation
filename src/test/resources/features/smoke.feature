@@ -2,8 +2,8 @@
 Feature: Smoke tests
 
   Scenario: Smoke - Dashboard opens and main modules are visible
-    Given I open the login page
-    When I login with valid credentials
+    Given user opens the login page
+    When user logs in with valid credentials
     Then dashboard should be visible
 
     When user clicks "Customers" from left menu
@@ -23,5 +23,5 @@ Feature: Smoke tests
     When user clicks "Bengi BMS" from left menu
     Then "Bengi BMS" page should be opened
 
-    And I logout
-    Then I should be redirected to login page
+    And user logs out
+    Then user should be redirected to login page
