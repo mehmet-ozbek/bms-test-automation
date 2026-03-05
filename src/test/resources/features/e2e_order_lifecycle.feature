@@ -12,7 +12,7 @@ Feature: End to End Order Lifecycle
     And user searches for customer "TestCompany" and clicks the basket
 
     # Ön Koşul ve Link Gönderimi
-    And cart contains at least one "Sultan Baklava 200gr"
+    And cart contains at least one "Sultan Baklava" with packaging "200 gr"
     And user selects "12 hours" and sends the order link
 
     # Müşteri Ekranı (Bypass) ve Sipariş Onayı

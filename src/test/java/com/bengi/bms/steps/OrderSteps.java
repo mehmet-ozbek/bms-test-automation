@@ -1,31 +1,52 @@
 package com.bengi.bms.steps;
 
+import com.bengi.bms.pages.CustomersPage;
+import com.bengi.bms.pages.CustomerDraftOrderPage;
 import io.cucumber.java.en.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class OrderSteps {
 
     // İleride buraya Page (Sayfa) sınıflarımızı çağıracağız
     // private final CustomersPage customersPage = new CustomersPage();
 
+    // Sayfa (Page) nesnemizi tanımlıyoruz
+    private final CustomersPage customersPage = new CustomersPage();
+    private final CustomerDraftOrderPage draftOrderPage = new CustomerDraftOrderPage();
+
     @When("user searches for customer {string} and clicks the basket")
     public void userSearchesForCustomerAndClicksTheBasket(String customerName) {
-        // TODO: Müşteri arama ve sepete tıklama kodları gelecek
-        System.out.println(customerName + " aranıyor...");
+
+        customersPage.searchAndFilterCustomer(customerName);
+        customersPage.clickBasket(customerName);
     }
 
-    @And("cart contains at least one {string}")
-    public void cartContainsAtLeastOne(String productName) {
-        // TODO: Sepette ürün var mı kontrolü
+    @And("cart contains at least one {string} with packaging {string}")
+    public void cartContainsAtLeastOne(String productName, String packaging) {
+
+        // Burada senin o harika tespitinle oluşturduğumuz Page metodunu çağırıyoruz
+        boolean isPresent = draftOrderPage.isProductInCart(productName, packaging);
+
+        // AssertJ ile doğruluyoruz
+        assertThat(isPresent)
+                .as("Sepette ürün bulunamadı: " + productName + " (" + packaging + ")")
+                .isTrue();
     }
 
     @And("user selects {string} and sends the order link")
     public void userSelectsAndSendsTheOrderLink(String time) {
-        // TODO: Süre seçimi ve link gönderme
+        // Süre seçimi ve link gönderme // Dropdown'dan süreyi seç
+        draftOrderPage.selectTime(time);
+
+        // Gönder butonuna bas
+        draftOrderPage.clickSendLink();
+
     }
 
     @And("user bypasses to the order form")
     public void userBypassesToTheOrderForm() {
-        // TODO: Order formuna geçiş (Bypass)
+        // Order formuna geçiş (Bypass) Sipariş formuna geçiş butonuna tıkla
+        draftOrderPage.bypassToOrderForm();
     }
 
     @And("user enters desired quantity and places the order")
