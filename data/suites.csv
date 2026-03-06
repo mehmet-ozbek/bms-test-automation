@@ -1,2 +1,2 @@
 "Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"passed","Thu Mar 05 11:09:24 UTC 2026","Thu Mar 05 11:10:20 UTC 2026","56665","","Smoke tests","","Smoke - Dashboard opens and main modules are visible","","Smoke - Dashboard opens and main modules are visible",""
+"passed","Fri Mar 06 07:55:04 UTC 2026","Fri Mar 06 07:55:55 UTC 2026","50660","","Smoke tests","","Smoke - Dashboard opens and main modules are visible","","Smoke - Dashboard opens and main modules are visible",""
